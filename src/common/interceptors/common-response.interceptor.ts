@@ -17,7 +17,7 @@ export class CommonResponseInterceptor<T>
   ): Observable<CommonResponseDto<T>> {
     return next.handle().pipe(
       map((data) => {
-        return new CommonResponseDto<T>(true, 'success', data);
+        return new CommonResponseDto<T>(true, '성공', data);
       }),
     );
   }
