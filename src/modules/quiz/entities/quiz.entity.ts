@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { QuizStatus } from '../enums/quiz-status.enum';
 
 @Entity()
 export class Quiz {
@@ -13,6 +14,13 @@ export class Quiz {
 
   @Column()
   title: string;
+
+  @Column({
+    type: 'enum',
+    enum: QuizStatus,
+    default: QuizStatus.Draft,
+  })
+  status: QuizStatus;
 
   @CreateDateColumn()
   createdAt: Date;
