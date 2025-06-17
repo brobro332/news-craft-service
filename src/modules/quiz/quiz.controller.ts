@@ -3,7 +3,7 @@ import { CreatequizDto } from './dtos/create-quiz.dto';
 import { Quiz } from './entities/quiz.entity';
 import { QuizService } from './quiz.service';
 
-@Controller('quiz')
+@Controller('quizzes')
 export class QuizController {
   constructor(private readonly quizService: QuizService) {}
 
@@ -13,7 +13,7 @@ export class QuizController {
   }
 
   @Delete(':id')
-  deleteById(@Param('id') id: string): Promise<void> {
-    return this.quizService.deleteById(id);
+  removeById(@Param('id') id: string): Promise<void> {
+    return this.quizService.removeById(id);
   }
 }

@@ -16,7 +16,7 @@ export class QuizService {
     return await this.quizRepository.save(quiz);
   }
 
-  async deleteById(id: string): Promise<void> {
+  async removeById(id: string): Promise<void> {
     const quiz = await this.quizRepository.findOne({ where: { id } });
     if (!quiz) throw new NotFoundException(`퀴즈 ID ${id}를 찾을 수 없습니다.`);
     await this.quizRepository.remove(quiz);
