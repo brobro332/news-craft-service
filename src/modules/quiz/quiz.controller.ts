@@ -5,15 +5,15 @@ import { QuizService } from './quiz.service';
 
 @Controller('quizzes')
 export class QuizController {
-  constructor(private readonly quizService: QuizService) {}
+  constructor(private readonly service: QuizService) {}
 
   @Post()
   create(@Body() dto: CreatequizDto): Promise<Quiz> {
-    return this.quizService.create(dto);
+    return this.service.create(dto);
   }
 
   @Delete(':id')
   removeById(@Param('id') id: string): Promise<void> {
-    return this.quizService.removeById(id);
+    return this.service.removeById(id);
   }
 }
