@@ -28,8 +28,10 @@ export class Quiz {
   @OneToMany(() => Question, (question) => question.quiz, { cascade: true })
   questions: Question[];
 
-  @OneToMany(() => QuizSession, (session) => session.quiz, { cascade: true })
-  sessions: QuizSession[];
+  @OneToMany(() => QuizSession, (quizSession) => quizSession.quiz, {
+    cascade: true,
+  })
+  quizSessions: QuizSession[];
 
   @CreateDateColumn()
   createdAt: Date;

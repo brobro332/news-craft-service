@@ -5,18 +5,20 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { QuizSessionStatus } from '../enums/quiz-session.enum';
 import { nanoid } from 'nanoid';
+import { Participant } from 'src/modules/participant/entities/participant.entity';
 
 @Entity()
 export class QuizSession {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Quiz, (quiz) => quiz.sessions, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Quiz, (quiz) => quiz.quizSessions, { onDelete: 'CASCADE' })
   quiz: Quiz;
 
   @Column({
@@ -28,6 +30,11 @@ export class QuizSession {
 
   @Column({ unique: true })
   url: string;
+
+  @OneToMany(() => Participant, (participant) => participant.quizSession, {
+    cascade: true,
+  })
+  participants: Participant[];
 
   @CreateDateColumn()
   createdAt: Date;
