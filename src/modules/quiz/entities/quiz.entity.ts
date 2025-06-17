@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { QuizStatus } from '../enums/quiz-status.enum';
 import { Question } from 'src/modules/question/entities/question.entity';
+import { QuizSession } from 'src/modules/quiz-session/entities/quiz-session.entity';
 
 @Entity()
 export class Quiz {
@@ -26,6 +27,9 @@ export class Quiz {
 
   @OneToMany(() => Question, (question) => question.quiz, { cascade: true })
   questions: Question[];
+
+  @OneToMany(() => QuizSession, (session) => session.quiz, { cascade: true })
+  sessions: QuizSession[];
 
   @CreateDateColumn()
   createdAt: Date;

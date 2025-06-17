@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { QuizModule } from './modules/quiz/quiz.module';
 import { QuestionModule } from './modules/question/question.module';
+import { QuizSessionModule } from './modules/quiz-session/quiz-session.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { QuestionModule } from './modules/question/question.module';
     }),
     QuizModule,
     QuestionModule,
+    QuizSessionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
