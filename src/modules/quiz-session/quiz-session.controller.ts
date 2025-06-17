@@ -14,17 +14,17 @@ import { QuizSessionStatus } from './enums/quiz-session.enum';
 export class QuizSessionController {
   constructor(private readonly service: QuizSessionService) {}
 
-  @Post('/quizzes/:quizId/quiz-session')
+  @Post('/quizzes/:quizId/quiz-sessions')
   createQuizSession(@Param('quizId') quizId: string) {
     return this.service.createQuizSession(quizId);
   }
 
-  @Get('/quiz-session/:id')
+  @Get('/quiz-sessions/:id')
   findQuizSessionById(@Param('id') id: string) {
     return this.service.findQuizSessionById(id);
   }
 
-  @Patch('/quiz-session/:id/status')
+  @Patch('/quiz-sessions/:id/status')
   updateQuizSessionStatusById(
     @Param('id') id: string,
     @Body('status') status: QuizSessionStatus,
@@ -32,8 +32,8 @@ export class QuizSessionController {
     return this.service.updateQuizSessionStatusById(id, status);
   }
 
-  @Delete('/quiz-session/:id')
-  deleteQuizSessionById(@Param('id') id: string) {
-    return this.service.deleteQuizSessionById(id);
+  @Delete('/quiz-sessions/:id')
+  endQuizSessionById(@Param('id') id: string) {
+    return this.service.endQuizSessionById(id);
   }
 }
