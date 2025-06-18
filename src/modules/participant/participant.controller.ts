@@ -2,11 +2,11 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateParticipantDto } from './dtos/participatn.dto';
 import { ParticipantService } from './participant.service';
 
-@Controller('quiz-sessions')
+@Controller()
 export class ParticipantController {
   constructor(private readonly service: ParticipantService) {}
 
-  @Post('/:quizSessionId/participants')
+  @Post('/quiz-sessions/:quizSessionId/participants')
   createParticipant(
     @Param('quizSessionId') quizSessionId: string,
     @Body() dto: CreateParticipantDto,
@@ -14,7 +14,7 @@ export class ParticipantController {
     return this.service.createParticipant(quizSessionId, dto);
   }
 
-  @Get('/:quizSessionId/participants')
+  @Get('/quiz-sessions/:quizSessionId/participants')
   findAllById(@Param('quizSessionId') quizSessionId: string) {
     return this.service.findAllById(quizSessionId);
   }
