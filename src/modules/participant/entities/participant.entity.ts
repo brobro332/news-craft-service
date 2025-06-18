@@ -1,9 +1,11 @@
+import { Answer } from 'src/modules/answer/entities/answer.entity';
 import { QuizSession } from 'src/modules/quiz-session/entities/quiz-session.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
@@ -21,6 +23,9 @@ export class Participant {
     onDelete: 'CASCADE',
   })
   quizSession: QuizSession;
+
+  @OneToMany(() => Answer, (answer) => answer.participant)
+  answers: Answer[];
 
   @CreateDateColumn()
   joinedAt: Date;

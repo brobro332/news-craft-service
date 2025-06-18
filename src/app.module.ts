@@ -7,6 +7,7 @@ import { QuizModule } from './modules/quiz/quiz.module';
 import { QuestionModule } from './modules/question/question.module';
 import { QuizSessionModule } from './modules/quiz-session/quiz-session.module';
 import { ParticipantModule } from './modules/participant/participant.module';
+import { AnswerModule } from './modules/answer/answer.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ParticipantModule } from './modules/participant/participant.module';
     QuestionModule,
     QuizSessionModule,
     ParticipantModule,
+    AnswerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
