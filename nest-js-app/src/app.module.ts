@@ -18,7 +18,7 @@ import { ScoreModule } from './modules/score/score.module';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: 'localhost',
+        host: configService.get('DATA_POSTGRES_HOST'),
         port: +configService.get('POSTGRES_EXTERNAL_PORT'),
         username: configService.get('DATA_POSTGRES_USERNAME'),
         password: configService.get('DATA_POSTGRES_PASSWORD'),

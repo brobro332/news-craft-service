@@ -8,11 +8,26 @@ services:
       POSTGRES_PASSWORD: ${DATA_POSTGRES_PASSWORD}
       POSTGRES_DB: ${DATA_POSTGRES_DB}
     ports:
-      - "${POSTGRES_EXTERNAL_PORT}:${POSTGRES_INTERNAL_PORT}"
+      - '${POSTGRES_EXTERNAL_PORT}:${POSTGRES_INTERNAL_PORT}'
     volumes:
       - pgdata:/var/lib/postgresql/data
     env_file:
       - .env
+
+  quiz-stream:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    container_name: quiz-stream
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    ports:
+      - '${QUIZ_STREAM_EXTERNAL_PORT}:${QUIZ_STREAM_INTERNAL_PORT}'
+    volumes:
+      - ../:/app
 
 volumes:
   pgdata:
