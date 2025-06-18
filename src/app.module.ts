@@ -8,6 +8,7 @@ import { QuestionModule } from './modules/question/question.module';
 import { QuizSessionModule } from './modules/quiz-session/quiz-session.module';
 import { ParticipantModule } from './modules/participant/participant.module';
 import { AnswerModule } from './modules/answer/answer.module';
+import { ScoreModule } from './modules/score/score.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AnswerModule } from './modules/answer/answer.module';
     QuizSessionModule,
     ParticipantModule,
     AnswerModule,
+    ScoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],
