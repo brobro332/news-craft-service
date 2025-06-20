@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
-import bgImage from "../assets/common-bg.png";
 
 interface LayoutProps {
   children: ReactNode;
+  bgImage: string;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children, bgImage }: LayoutProps) => {
   return (
     <div
       className="min-h-screen w-full bg-cover bg-center bg-no-repeat"
