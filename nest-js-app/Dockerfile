@@ -7,6 +7,7 @@ RUN npm install
 
 COPY . .
 
+RUN rm -rf dist
 RUN npm run build
 
 CMD ["node", "dist/main.js"]

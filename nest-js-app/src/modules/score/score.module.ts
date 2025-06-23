@@ -9,5 +9,6 @@ import { Participant } from '../participant/entities/participant.entity';
   imports: [TypeOrmModule.forFeature([Score, Participant])],
   controllers: [ScoreController],
   providers: [ScoreService],
+  exports: [ScoreService],
 })
 export class ScoreModule {}

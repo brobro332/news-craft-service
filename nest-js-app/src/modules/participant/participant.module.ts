@@ -10,5 +10,6 @@ import { Score } from '../score/entities/score.entity';
   imports: [TypeOrmModule.forFeature([Participant, QuizSession, Score])],
   controllers: [ParticipantController],
   providers: [ParticipantService],
+  exports: [ParticipantService],
 })
 export class ParticipantModule {}

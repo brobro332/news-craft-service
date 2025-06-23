@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${DATA_POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${DATA_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DATA_POSTGRES_DB}
+    ports:
+      - "${POSTGRES_EXTERNAL_PORT}:${POSTGRES_INTERNAL_PORT}"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - app-network
+
+  nest-js-app:
+    build:
+      context: ../nest-js-app
+      dockerfile: Dockerfile
+    container_name: nest-js-app
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    ports:
+      - "${NEST_JS_APP_EXTERNAL_PORT}:${NEST_JS_APP_INTERNAL_PORT}"
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ../react-app
+      dockerfile: Dockerfile
+    container_name: nginx
+    restart: always
+    ports:
+      - "${NGINX_EXTERNAL_PORT}:${NGINX_INTERNAL_PORT}"
+    depends_on:
+      - nest-js-app
+    networks:
+      - app-network
+
+volumes:
+  pgdata:
+
+networks:
+  app-network:
+    driver: bridge

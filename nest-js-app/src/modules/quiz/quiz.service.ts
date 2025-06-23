@@ -8,17 +8,17 @@ import { CreatequizDto } from './dtos/create-quiz.dto';
 export class QuizService {
   constructor(
     @InjectRepository(Quiz)
-    private readonly quizRepository: Repository<Quiz>,
+    private readonly repository: Repository<Quiz>,
   ) {}
 
   async create(dto: CreatequizDto): Promise<Quiz> {
-    const quiz = this.quizRepository.create(dto);
-    return await this.quizRepository.save(quiz);
+    const quiz = this.repository.create(dto);
+    return await this.repository.save(quiz);
   }
 
   async removeById(id: string): Promise<void> {
-    const quiz = await this.quizRepository.findOne({ where: { id } });
+    const quiz = await this.repository.findOne({ where: { id } });
     if (!quiz) throw new NotFoundException(`퀴즈 ID ${id}를 찾을 수 없습니다.`);
-    await this.quizRepository.remove(quiz);
+    await this.repository.remove(quiz);
   }
 }

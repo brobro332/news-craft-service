@@ -8,7 +8,6 @@ import {
   Post,
 } from '@nestjs/common';
 import { QuizSessionService } from './quiz-session.service';
-import { QuizSessionStatus } from './enums/quiz-session.enum';
 
 @Controller()
 export class QuizSessionController {
@@ -19,17 +18,19 @@ export class QuizSessionController {
     return this.service.createQuizSession(quizId);
   }
 
-  @Get('/quiz-sessions/:id')
+  @Post('/quiz-sessions/:id')
+  startNextQuestion(@Param('id') id: string) {
+    return this.service.startNextQuestion(id);
+  }
+
+  @Get('/quiz-sessions/id/:id')
   findQuizSessionById(@Param('id') id: string) {
     return this.service.findQuizSessionById(id);
   }
 
-  @Patch('/quiz-sessions/:id/status')
-  updateQuizSessionStatusById(
-    @Param('id') id: string,
-    @Body('status') status: QuizSessionStatus,
-  ) {
-    return this.service.updateQuizSessionStatusById(id, status);
+  @Get('/quiz-sessions/url/:url')
+  findQuizSessionByUrl(@Param('url') url: string) {
+    return this.service.findQuizSessionByUrl(url);
   }
 
   @Delete('/quiz-sessions/:id')

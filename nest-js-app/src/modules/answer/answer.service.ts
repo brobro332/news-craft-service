@@ -61,4 +61,32 @@ export class AnswerService {
 
     return this.repository.save(answer);
   }
+
+  async getAnswersCount(
+    quizSessionId: string,
+    questionId: string,
+  ): Promise<Record<string, number>> {
+    const rawData = await this.repository
+      .createQueryBuilder('answer')
+      .select('answer.selectedOption', 'selectedOption')
+      .addSelect('COUNT(answer.selectedOption)', 'count')
+      .innerJoin('answer.participant', 'participant')
+      .where('participant.quizSessionId = :quizSessionId', { quizSessionId })
+      .andWhere('answer.questionId = :questionId', { questionId })
+      .groupBy('answer.selectedOption')
+      .getRawMany();
+
+    const question = await this.questionRepository.findOne({
+      where: { id: questionId },
+    });
+    const answer = question?.answer;
+
+    return rawData.reduce(
+      (acc, cur) => {
+        acc[cur.selectedOption] = Number(cur.count);
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+  }
 }

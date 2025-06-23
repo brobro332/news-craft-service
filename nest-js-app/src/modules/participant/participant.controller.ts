@@ -14,6 +14,14 @@ export class ParticipantController {
     return this.service.createParticipant(quizSessionId, dto);
   }
 
+  @Get('/quiz-sessions/:quizSessionId/participants/user-id/:userId')
+  findByUserId(
+    @Param('quizSessionId') quizSessionId: string,
+    @Param('userId') userId: string,
+  ) {
+    return this.service.findByUserId(quizSessionId, userId);
+  }
+
   @Get('/quiz-sessions/:quizSessionId/participants')
   findAllById(@Param('quizSessionId') quizSessionId: string) {
     return this.service.findAllById(quizSessionId);
