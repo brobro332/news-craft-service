@@ -25,7 +25,7 @@ function App() {
 
   useEffect(() => {
     if (!localStorage.getItem("userId")) {
-      const uuid = crypto.randomUUID(); // 브라우저 내장 UUID 생성기
+      const uuid = crypto.randomUUID();
       localStorage.setItem("userId", uuid);
     }
   }, []);
@@ -75,17 +75,34 @@ function App() {
             </motion.div>
           }
         />
-        <Route path="/nickname/:sessionUrl" element={<NicknameInputPage />} />
-        <Route path="/session/:sessionId" element={<SessionPage />} />
-        {/*
-          <Route path="/quiz/:sessionId" element={<UserQuizPage />} />
-          <Route path="/host/:sessionId" element={<HostQuizPage />} />
-          <Route
-            path="/result/:sessionId/question/:questionId"
-            element={<QuestionResultPage />}
-          />
-          <Route path="/result/:sessionId/final" element={<FinalResultPage />} />
-        */}
+        <Route
+          path="/nickname/:sessionUrl"
+          element={
+            <motion.div
+              initial="initial"
+              animate="in"
+              exit="out"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <NicknameInputPage />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/session/:sessionId"
+          element={
+            <motion.div
+              initial="initial"
+              animate="in"
+              exit="out"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <SessionPage />
+            </motion.div>
+          }
+        />
       </Routes>
     </AnimatePresence>
   );

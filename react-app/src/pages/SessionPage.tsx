@@ -32,7 +32,10 @@ const SessionPage = () => {
   useEffect(() => {
     if (!sessionId || !userId) return;
 
-    socketRef.current = io("http://localhost:3000/quiz-sessions");
+    socketRef.current = io("/quiz-sessions", {
+      path: "/socket.io",
+      transports: ["websocket"],
+    });
 
     socketRef.current.on("connect", () => {
       socketRef.current?.emit("join", { sessionId, userId });

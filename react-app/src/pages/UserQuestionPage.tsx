@@ -70,7 +70,16 @@ const UserQuizPage: React.FC<UserQuizPageProps> = ({ session }) => {
   }, [quizId]);
 
   useEffect(() => {
-    socketRef.current = io("http://localhost:3000/quiz-sessions");
+    if (currentIndex >= questions.length && questions.length > 0) {
+      setCurrentIndex(0);
+    }
+  }, [currentIndex, questions.length]);
+
+  useEffect(() => {
+    socketRef.current = io("/quiz-sessions", {
+      path: "/socket.io",
+      transports: ["websocket"],
+    });
 
     socketRef.current.emit("join", { sessionId: session.id, userId: userId });
 
@@ -137,7 +146,9 @@ const UserQuizPage: React.FC<UserQuizPageProps> = ({ session }) => {
     }
   };
 
-  if (loading)
+  const currentQuestion = questions[currentIndex];
+
+  if (loading || !currentQuestion) {
     return (
       <Layout bgImage={bgImage}>
         <div className="flex flex-col items-center justify-center h-full text-gray-700 space-y-4">
@@ -146,8 +157,7 @@ const UserQuizPage: React.FC<UserQuizPageProps> = ({ session }) => {
         </div>
       </Layout>
     );
-
-  const currentQuestion = questions[currentIndex];
+  }
 
   return (
     <Layout bgImage={bgImage}>
@@ -166,20 +176,18 @@ const UserQuizPage: React.FC<UserQuizPageProps> = ({ session }) => {
               <span>&nbsp;&nbsp;{correctAnswer}</span>
             </p>
             <ul className="mt-4 space-y-2">
-              {rankings.map((r) => {
-                return (
-                  <li
-                    key={r.nickname}
-                    className="font-bungee flex justify-between text-lg font-semibold border-b border-gray-300 pb-2 last:border-none"
-                  >
-                    <span>
-                      {ordinal(r.rank)}
-                      <span className="font-jua">&nbsp;&nbsp;{r.nickname}</span>
-                    </span>
-                    <span>{r.score} POINTS</span>
-                  </li>
-                );
-              })}
+              {rankings.map((r) => (
+                <li
+                  key={r.nickname}
+                  className="font-bungee flex justify-between text-lg font-semibold border-b border-gray-300 pb-2 last:border-none"
+                >
+                  <span>
+                    {ordinal(r.rank)}
+                    <span className="font-jua">&nbsp;&nbsp;{r.nickname}</span>
+                  </span>
+                  <span>{r.score} POINTS</span>
+                </li>
+              ))}
             </ul>
             <p className="text-sm text-gray-500 mt-2">
               Please wait for the next step.

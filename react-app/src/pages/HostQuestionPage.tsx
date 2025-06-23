@@ -66,7 +66,19 @@ const HostQuizPage: React.FC<HostQuizPageProps> = ({ session }) => {
   }, [quizId]);
 
   useEffect(() => {
-    socketRef.current = io("http://localhost:3000/quiz-sessions");
+    if (
+      questions.length > 0 &&
+      (currentIndex >= questions.length || currentIndex < 0)
+    ) {
+      setCurrentIndex(0);
+    }
+  }, [currentIndex, questions.length]);
+
+  useEffect(() => {
+    socketRef.current = io("/quiz-sessions", {
+      path: "/socket.io",
+      transports: ["websocket"],
+    });
 
     socketRef.current.emit("join", { sessionId: session.id, userId });
 
@@ -121,20 +133,37 @@ const HostQuizPage: React.FC<HostQuizPageProps> = ({ session }) => {
     setCorrectAnswer(null);
   };
 
-  if (loading)
+  if (loading) {
     return (
       <Layout bgImage={bgImage}>
-        <div>문제 불러오는 중...</div>
+        <div className="flex justify-center items-center h-full text-gray-700">
+          문제 불러오는 중...
+        </div>
       </Layout>
     );
-  if (questions.length === 0)
+  }
+
+  if (questions.length === 0) {
     return (
       <Layout bgImage={bgImage}>
-        <div>문제가 없습니다.</div>
+        <div className="flex justify-center items-center h-full text-gray-700">
+          문제가 없습니다.
+        </div>
       </Layout>
     );
+  }
 
   const currentQuestion = questions[currentIndex];
+
+  if (!currentQuestion) {
+    return (
+      <Layout bgImage={bgImage}>
+        <div className="flex justify-center items-center h-full text-gray-700">
+          현재 질문을 불러올 수 없습니다.
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout bgImage={bgImage}>
