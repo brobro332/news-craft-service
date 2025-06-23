@@ -17,6 +17,9 @@ export class Participant {
   id: string;
 
   @Column()
+  userId: string;
+
+  @Column()
   nickname: string;
 
   @ManyToOne(() => QuizSession, (quizSession) => quizSession.participants, {

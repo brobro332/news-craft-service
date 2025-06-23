@@ -4,6 +4,9 @@ import HomePage from "./pages/HomePage";
 import QuizCreatePage from "./pages/QuizCreatePage";
 import { AnimatePresence, motion } from "framer-motion";
 import ShareUrlPage from "./pages/ShareUrlPage";
+import NicknameInputPage from "./pages/NicknameInputPage";
+import SessionPage from "./pages/SessionPage";
+import { useEffect } from "react";
 
 const pageVariants = {
   initial: { opacity: 0, x: 100 },
@@ -19,6 +22,13 @@ const pageTransition = {
 
 function App() {
   const location = useLocation();
+
+  useEffect(() => {
+    if (!localStorage.getItem("userId")) {
+      const uuid = crypto.randomUUID(); // 브라우저 내장 UUID 생성기
+      localStorage.setItem("userId", uuid);
+    }
+  }, []);
 
   return (
     <AnimatePresence mode="wait" initial={false}>
@@ -65,8 +75,9 @@ function App() {
             </motion.div>
           }
         />
+        <Route path="/nickname/:sessionUrl" element={<NicknameInputPage />} />
+        <Route path="/session/:sessionId" element={<SessionPage />} />
         {/*
-          <Route path="/waiting/:sessionId" element={<SessionWaitingPage />} />
           <Route path="/quiz/:sessionId" element={<UserQuizPage />} />
           <Route path="/host/:sessionId" element={<HostQuizPage />} />
           <Route

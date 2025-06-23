@@ -11,5 +11,6 @@ import { Score } from '../score/entities/score.entity';
   imports: [TypeOrmModule.forFeature([Answer, Participant, Question, Score])],
   controllers: [AnswerController],
   providers: [AnswerService],
+  exports: [AnswerService],
 })
 export class AnswerModule {}

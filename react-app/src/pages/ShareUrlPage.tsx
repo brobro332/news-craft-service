@@ -5,7 +5,7 @@ import Layout from "../components/Layout";
 const ShareUrlPage = () => {
   const { sessionUrl } = useParams();
 
-  const fullUrl = `${window.location.origin}/session/${sessionUrl}`;
+  const fullUrl = `${window.location.origin}/nickname/${sessionUrl}`;
 
   const handleCopy = async () => {
     try {

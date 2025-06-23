@@ -13,7 +13,7 @@ import { QuizSession } from 'src/modules/quiz-session/entities/quiz-session.enti
 @Entity()
 export class Quiz {
   @PrimaryGeneratedColumn('uuid')
-  id: String;
+  id: string;
 
   @Column()
   title: string;
@@ -24,6 +24,9 @@ export class Quiz {
     default: QuizStatus.Draft,
   })
   status: QuizStatus;
+
+  @Column()
+  ownerId: string;
 
   @OneToMany(() => Question, (question) => question.quiz, { cascade: true })
   questions: Question[];

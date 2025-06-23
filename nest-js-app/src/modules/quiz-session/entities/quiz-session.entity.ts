@@ -31,6 +31,15 @@ export class QuizSession {
   @Column({ unique: true })
   url: string;
 
+  @Column({ type: 'bigint', nullable: true })
+  questionStartTime: number | null;
+
+  @Column({ type: 'int', default: 60 })
+  perQuestionTime: number;
+
+  @Column({ type: 'int', default: 0 })
+  currentQuestionIndex: number;
+
   @OneToMany(() => Participant, (participant) => participant.quizSession, {
     cascade: true,
   })

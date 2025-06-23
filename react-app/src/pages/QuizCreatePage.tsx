@@ -2,7 +2,7 @@ import { useState } from "react";
 import bgImage from "../assets/create-bg.png";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
-import { apiFetch } from "../utils/Api";
+import { apiAxios } from "../utils/Api";
 
 interface Question {
   content: string;
@@ -65,38 +65,38 @@ const QuizCreatePage = () => {
           q.answer === null
       )
     ) {
-      alert("Please fill in all fields.");
+      alert("Please fill in all fields or select the correct answer.");
       return;
     }
 
     setIsLoading(true);
 
     try {
-      const quizRes = await apiFetch("/quizzes", {
+      const userId = localStorage.getItem("userId");
+
+      const quizRes = await apiAxios("/quizzes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: quizTitle }),
+        data: { title: quizTitle, ownerId: userId },
       });
 
-      const quizData = await quizRes.json();
-      const quizId = quizData.data.id;
+      const quizId = quizRes.id;
 
       await Promise.all(
         questions.map((q) =>
-          apiFetch(`/quizzes/${quizId}/questions`, {
+          apiAxios(`/quizzes/${quizId}/questions`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(q),
+            data: q,
           })
         )
       );
 
-      const sessionRes = await apiFetch(`/quizzes/${quizId}/quiz-sessions`, {
+      const sessionRes = await apiAxios(`/quizzes/${quizId}/quiz-sessions`, {
         method: "POST",
       });
 
-      const sessionData = await sessionRes.json();
-      const sessionUrl = sessionData.data.url;
+      const sessionUrl = sessionRes.url;
 
       navigate(`/share/${sessionUrl}`);
     } catch (err) {
